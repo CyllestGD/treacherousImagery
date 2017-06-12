@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMissileCreationScript : MonoBehaviour {
-    //public rigidbody PlayerMissile;
+public class PlayerMissileCreation : MonoBehaviour {
+    public Rigidbody PlayerMissile;
 
 	void Update () {
-		
+        Instantiate(PlayerMissile, transform.position, transform.rotation);
 	}
 }
