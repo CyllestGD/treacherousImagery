@@ -9,8 +9,8 @@ public class MissileControl : MonoBehaviour
     public int xAxis;
     public int yAxis;
 
-    public Vector2 mousePosition;
-    public static Vector2 objPosition;
+    public Vector3 mousePosition;
+    public static Vector3 objPosition;
 
     public KeyCode fireMissile;
 
@@ -19,6 +19,8 @@ public class MissileControl : MonoBehaviour
     public float timeKeeper = 0f;
     public float fracDist = .01f;
     public Vector3 targetPosition;
+
+    public GameObject[] bases;
 
     void ChoosingBase()
     {
@@ -58,7 +60,7 @@ public class MissileControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetKeyDown(fireMissile))
@@ -76,5 +78,24 @@ public class MissileControl : MonoBehaviour
             fracDist += .01f;
             timeKeeper = 0f;
         }
+    }
+
+    GameObject GetClosestBase()
+    {
+        GameObject bestBase = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        foreach (GameObject potentialTarget in bases)
+        {
+            // needs to be against mouse pos
+            Vector3 directionToTarget = potentialTarget.transform.position - mousePosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestBase = potentialTarget;
+            }
+        }
+
+        return bestBase;
     }
 }
