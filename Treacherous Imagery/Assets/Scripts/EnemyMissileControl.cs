@@ -4,58 +4,72 @@ using UnityEngine;
 
 public class EnemyMissileControl : MonoBehaviour
 {
+    public enum Spawn { Left, Middle, Right };
+    public Spawn spawnSelected;
+    public int xAxisSpawn;
+    public int yAxisSpawn = 6;
+
     public enum Base { Left, Middle, Right };
     public Base baseSelected;
-    public int xAxis;
-    public int yAxis;
+    public int xAxisTarget;
+    public int yAxisTarget = -4;
+
+    public Transform missileObj;
 
     public float timeKeeper = 0f;
     public float fracDist = .01f;
     public Vector3 targetPosition;
+    public static Vector3 objPosition;
 
-    // Use this for initialization
-    void Start()
+    public GameObject[] bases;
+
+    public int enemiesRemaining = 14;
+
+    void ChoosingSpawn()
     {
-        targetPosition = GameManager.objPosition;
-        GetComponent<Transform>().eulerAngles = new Vector3 (0, 0, -15);
+        int role = Random.Range(0, 3);
+        spawnSelected = (Spawn)role;
     }
 
-    // Update is called once per frame
-    void Update()
+    void SpawnLocation()
     {
-        timeKeeper += Time.deltaTime;
-
-        if ( timeKeeper > .04)
+        if (spawnSelected == Spawn.Left)
         {
-            fracDist += .01f;
-            timeKeeper = 0f;
+            xAxisSpawn = -6;
         }
-
-        transform.position = Vector3.Lerp(transform.position, new Vector3 (xAxis, yAxis, 0), fracDist);
+        if (spawnSelected == Spawn.Middle)
+        {
+            xAxisSpawn = 0;
+        }
+        if (spawnSelected == Spawn.Right)
+        {
+            xAxisSpawn = 6;
+        }
+        else
+        {
+            Debug.Log("Error: SpawnLocation");
+        }
     }
 
-    void ChoosingBase()
+    void ChoosingTarget()
     {
         int role = Random.Range(0, 3);
         baseSelected = (Base)role;
     }
 
-    void BaseCoordinates()
+    void TargetLocation()
     {
         if (baseSelected == Base.Left)
         {
-            xAxis = -6;
-            yAxis = -4;
+            xAxisTarget = -6;
         }
         if (baseSelected == Base.Middle)
         {
-            xAxis = 0;
-            yAxis = -4;
+            xAxisTarget = 0;
         }
         if (baseSelected == Base.Right)
         {
-            xAxis = 6;
-            yAxis = -4;
+            xAxisTarget = 6;
         }
         else
         {
@@ -63,5 +77,37 @@ public class EnemyMissileControl : MonoBehaviour
         }
     }
 
+    void SpawnEnemies()
+    {
+            ChoosingSpawn();
+            SpawnLocation();
+            Instantiate(missileObj, new Vector3(xAxisSpawn, yAxisSpawn, 0), missileObj.rotation);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
+            enemiesRemaining = enemiesRemaining -1;
+        if (enemiesRemaining == 0)
+        {
+            Debug.Log("Round should be over.");
+        }
+    }
 
+    void Start()
+    {
+        targetPosition = objPosition;
+        GetComponent<Transform>().eulerAngles = new Vector3(xAxisSpawn, yAxisSpawn, -15);
+        SpawnEnemies();
+    }
+
+    void Update()
+    {
+        SpawnEnemies();
+        targetPosition = new Vector3(xAxisTarget, yAxisTarget, 0);
+
+        timeKeeper += Time.deltaTime;
+
+        if (timeKeeper > .04)
+        {
+            fracDist += .01f;
+            timeKeeper = 0f;
+        }
+    }
 }

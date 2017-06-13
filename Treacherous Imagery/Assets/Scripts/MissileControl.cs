@@ -7,7 +7,7 @@ public class MissileControl : MonoBehaviour
     public enum Base { Left, Middle, Right };
     public Base baseSelected;
     public int xAxis;
-    public int yAxis;
+    public int yAxis = -4;
 
     public Vector3 mousePosition;
     public static Vector3 objPosition;
@@ -33,17 +33,14 @@ public class MissileControl : MonoBehaviour
         if (baseSelected == Base.Left)
         {
             xAxis = -6;
-            yAxis = -4;
         }
         if (baseSelected == Base.Middle)
         {
             xAxis = 0;
-            yAxis = -4;
         }
         if (baseSelected == Base.Right)
         {
             xAxis = 6;
-            yAxis = -4;
         }
         else
         {
@@ -60,7 +57,7 @@ public class MissileControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.5f);
         objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetKeyDown(fireMissile))

@@ -12,7 +12,7 @@ public class PlayerMissileMovement : MonoBehaviour
     void Start()
     {
         targetPosition = MissileControl.objPosition;
-        GetComponent<Transform>().eulerAngles = new Vector3(0, 0, -15);
+        GetComponent<Transform>().eulerAngles = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -22,10 +22,13 @@ public class PlayerMissileMovement : MonoBehaviour
 
         if (timeKeeper > .04)
         {
-            fracDist += .01f;
+            fracDist += .0001f;
             timeKeeper = 0f;
         }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
     }
+
+
+
 }
