@@ -11,7 +11,7 @@ public class EnemyMissileMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        targetPosition = EnemyMissileControl.objPosition;
+        targetPosition = EnemyMissileControl.Instance.targetPosition;
         GetComponent<Transform>().eulerAngles = new Vector3(0, 0, 0);
     }
 

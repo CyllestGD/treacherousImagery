@@ -25,6 +25,13 @@ public class EnemyMissileControl : MonoBehaviour
 
     public int enemiesRemaining = 14;
 
+    public static EnemyMissileControl Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
     void ChoosingSpawn()
     {
         int role = Random.Range(0, 3);
@@ -81,6 +88,8 @@ public class EnemyMissileControl : MonoBehaviour
     {
             ChoosingSpawn();
             SpawnLocation();
+            ChoosingTarget();
+            TargetLocation();
             Instantiate(missileObj, new Vector3(xAxisSpawn, yAxisSpawn, 0), missileObj.rotation);
             transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
             enemiesRemaining = enemiesRemaining -1;
