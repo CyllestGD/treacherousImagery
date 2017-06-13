@@ -28,7 +28,26 @@ public class EnemyMissileMovement : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
     }
-
-
-
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("LeftBase"))
+        {
+            PlayerMissileControl.LeftHP -= 1;
+            PlayerMissileControl.SetHealthText();
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("MiddleBase"))
+        {
+            PlayerMissileControl.MiddleHP -= 1;
+            PlayerMissileControl.SetHealthText();
+            Debug.Log("Middle my dude");
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("RightBase"))
+        {
+            PlayerMissileControl.RightHP -= 1;
+            PlayerMissileControl.SetHealthText();
+            Destroy(other.gameObject);
+        }
+    }
 }

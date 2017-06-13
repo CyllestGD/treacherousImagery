@@ -1,25 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MissileControl : MonoBehaviour
+public class PlayerMissileControl : MonoBehaviour
 {
-    public enum Base { Left, Middle, Right };
-    public Base baseSelected;
+    // Information for base health
+    public static int LeftHP = 3;
+    public static int MiddleHP = 3;
+    public static int RightHP = 3;
+    public static Text leftHP;
+    public static Text middleHP;
+    public static Text rightHP;
+
+
+    // Information for directions
+    public Vector3 mousePosition;
+    public static Vector3 objPosition;
     public int xAxis;
     public int yAxis = -4;
 
-    public Vector3 mousePosition;
-    public static Vector3 objPosition;
-
+    // Information for shooting missiles
     public KeyCode fireMissile;
-
     public Transform missileObj;
-
     public float timeKeeper = 0f;
     public float fracDist = .01f;
     public Vector3 targetPosition;
 
+    // Used to decide what base to shoot from
+    public enum Base { Left, Middle, Right };
+    public Base baseSelected;
     public GameObject[] bases;
 
     void ChoosingBase()
@@ -34,32 +44,40 @@ public class MissileControl : MonoBehaviour
         {
             xAxis = -6;
         }
-        if (baseSelected == Base.Middle)
+        else if (baseSelected == Base.Middle)
         {
             xAxis = 0;
         }
-        if (baseSelected == Base.Right)
+        else if (baseSelected == Base.Right)
         {
             xAxis = 6;
         }
         else
         {
-            Debug.Log("Error: BaseCoordinates");
+            //Debug.Log("Error: BaseCoordinates");
         }
     }
-    // Use this for initialization
+
+    public static void SetHealthText()
+    {
+        leftHP.text = "Health: " + LeftHP.ToString();
+        middleHP.text = "Health: " + MiddleHP.ToString();
+        rightHP.text = "Health: " + RightHP.ToString();
+    }
+
     void Start()
     {
         targetPosition = objPosition;
         GetComponent<Transform>().eulerAngles = new Vector3 (xAxis, yAxis, -15);
     }
 
-    // Update is called once per frame
     void Update()
     {
         mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.5f);
         objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
+        // Decides what base to fire from, gets spawn location for player missiles
+        // Spawns missile, moves it to the target location
         if (Input.GetKeyDown(fireMissile))
         {
             ChoosingBase();
@@ -77,6 +95,8 @@ public class MissileControl : MonoBehaviour
         }
     }
 
+
+
     GameObject GetClosestBase()
     {
         GameObject bestBase = null;
@@ -92,7 +112,6 @@ public class MissileControl : MonoBehaviour
                 bestBase = potentialTarget;
             }
         }
-
         return bestBase;
     }
 }

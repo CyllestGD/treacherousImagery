@@ -54,7 +54,7 @@ public class EnemyMissileControl : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error: SpawnLocation");
+            //Debug.Log("Error: SpawnLocation");
         }
     }
 
@@ -80,7 +80,7 @@ public class EnemyMissileControl : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error: BaseCoordinates");
+            //Debug.Log("Error: BaseCoordinates");
         }
     }
 
