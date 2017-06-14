@@ -20,7 +20,7 @@ public class PlayerMissileMovement : MonoBehaviour
 
         if (timeKeeper > .04)
         {
-            fracDist += .0001f;
+            fracDist += .000001f;
             timeKeeper = 0f;
         }
         transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
@@ -30,6 +30,7 @@ public class PlayerMissileMovement : MonoBehaviour
         if (other.gameObject.CompareTag("EnemyMissile"))
         {
             Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
 }

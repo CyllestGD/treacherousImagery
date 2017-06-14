@@ -6,12 +6,15 @@ using UnityEngine.UI;
 public class PlayerMissileControl : MonoBehaviour
 {
     // Information for base health
-    public static int LeftHP = 3;
-    public static int MiddleHP = 3;
-    public static int RightHP = 3;
+    public static int LeftHP = 5;
+    public static int MiddleHP = 5;
+    public static int RightHP = 5;
     public static Text leftHP;
     public static Text middleHP;
     public static Text rightHP;
+    public Text leftHPNS;
+    public Text middleHPNS;
+    public Text rightHPNS;
 
 
     // Information for directions
@@ -67,13 +70,17 @@ public class PlayerMissileControl : MonoBehaviour
 
     void Start()
     {
+        leftHP = leftHPNS;
+        middleHP = middleHPNS;
+        rightHP = rightHPNS;
         targetPosition = objPosition;
+        SetHealthText();
         GetComponent<Transform>().eulerAngles = new Vector3 (xAxis, yAxis, -15);
     }
 
     void Update()
     {
-        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.5f);
+        mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 3f);
         objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         // Decides what base to fire from, gets spawn location for player missiles

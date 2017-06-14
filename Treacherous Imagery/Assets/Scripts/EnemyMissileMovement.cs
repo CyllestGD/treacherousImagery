@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMissileMovement : MonoBehaviour
 {
     public float timeKeeper = 0f;
-    public float fracDist = .01f;
+    public float fracDist = .0001f;
     public Vector3 targetPosition;
 
     // Use this for initialization
@@ -22,10 +22,9 @@ public class EnemyMissileMovement : MonoBehaviour
 
         if (timeKeeper > .04)
         {
-            fracDist += .0001f;
+            fracDist += .000001f;
             timeKeeper = 0f;
         }
-
         transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
     }
     void OnTriggerEnter(Collider other)
@@ -34,20 +33,36 @@ public class EnemyMissileMovement : MonoBehaviour
         {
             PlayerMissileControl.LeftHP -= 1;
             PlayerMissileControl.SetHealthText();
-            Destroy(other.gameObject);
+            Debug.Log("Left is hurt");
+            if (PlayerMissileControl.LeftHP == 0)
+            {
+                
+                Destroy(other.gameObject);
+            }
+            Destroy(gameObject);
         }
         if (other.gameObject.CompareTag("MiddleBase"))
         {
             PlayerMissileControl.MiddleHP -= 1;
             PlayerMissileControl.SetHealthText();
             Debug.Log("Middle my dude");
-            Destroy(other.gameObject);
+            if (PlayerMissileControl.MiddleHP == 0)
+            {
+                Destroy(other.gameObject);
+                //EnemyMissileControl.Base
+            }
+            Destroy(gameObject);
         }
         if (other.gameObject.CompareTag("RightBase"))
         {
             PlayerMissileControl.RightHP -= 1;
             PlayerMissileControl.SetHealthText();
-            Destroy(other.gameObject);
+            Debug.Log("Right's hit!");
+            if (PlayerMissileControl.RightHP == 0)
+            {
+                Destroy(other.gameObject);
+            }
+            Destroy(gameObject);
         }
     }
 }

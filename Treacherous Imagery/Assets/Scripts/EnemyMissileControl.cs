@@ -9,21 +9,25 @@ public class EnemyMissileControl : MonoBehaviour
     public int xAxisSpawn;
     public int yAxisSpawn = 6;
 
-    public enum Base { Left, Middle, Right };
-    public Base baseSelected;
     public int xAxisTarget;
     public int yAxisTarget = -4;
 
-    public Transform missileObj;
+    public Transform chosenMan;
+    public Transform missileMan01;
+    public Transform missileMan02;
+    public Transform missileMan03;
+    public Transform missileHead01;
 
     public float timeKeeper = 0f;
-    public float fracDist = .01f;
+    public float fracDist = .0001f;
     public Vector3 targetPosition;
     public static Vector3 objPosition;
 
     public GameObject[] bases;
+    public GameObject[] activeBases;
+    public GameObject baseSelected;
 
-    public int enemiesRemaining = 14;
+    public int enemiesRemaining;
 
     public static EnemyMissileControl Instance;
 
@@ -60,23 +64,45 @@ public class EnemyMissileControl : MonoBehaviour
 
     void ChoosingTarget()
     {
-        int role = Random.Range(0, 3);
-        baseSelected = (Base)role;
+        int role = Random.Range(0, activeBases.Length);
+        baseSelected = activeBases[role];
     }
 
     void TargetLocation()
     {
-        if (baseSelected == Base.Left)
+        if (baseSelected == activeBases[0])
         {
-            xAxisTarget = -6;
+            if (PlayerMissileControl.LeftHP <= 0)
+            {
+                Debug.Log("rerolling...");
+                ChoosingTarget();
+            }
+            else
+            {
+                xAxisTarget = -6;
+            }
         }
-        if (baseSelected == Base.Middle)
+        if (baseSelected == activeBases[1])
         {
-            xAxisTarget = 0;
+            if (PlayerMissileControl.MiddleHP <= 0)
+            {
+                ChoosingTarget();
+            }
+            else
+            {
+                xAxisTarget = 0;
+            }
         }
-        if (baseSelected == Base.Right)
+        if (baseSelected == activeBases[2])
         {
-            xAxisTarget = 6;
+            if (PlayerMissileControl.RightHP <= 0)
+            {
+                ChoosingTarget();
+            }
+            else
+            {
+                xAxisTarget = 6;
+            }
         }
         else
         {
@@ -90,20 +116,74 @@ public class EnemyMissileControl : MonoBehaviour
             SpawnLocation();
             ChoosingTarget();
             TargetLocation();
-            Instantiate(missileObj, new Vector3(xAxisSpawn, yAxisSpawn, 0), missileObj.rotation);
             transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
-            enemiesRemaining = enemiesRemaining -1;
-        if (enemiesRemaining == 0)
+    }
+
+    void LaunchProjectile()
+    {
+        ChoosingMan();
+        checkForAmmo();
+    }
+
+    void instantiateMan()
+    {
+        Instantiate(chosenMan, new Vector3(xAxisSpawn, yAxisSpawn, 0), chosenMan.rotation);
+    }
+
+    void instantiateHead()
+    {
+        Instantiate(missileHead01, new Vector3(xAxisSpawn, yAxisSpawn, 0), missileHead01.rotation);
+    }
+
+    void checkForAmmo()
+    {
+        if (enemiesRemaining > 0)
         {
-            Debug.Log("Round should be over.");
+            if (spawnSelected == Spawn.Left)
+            {
+                instantiateMan();
+            }
+            if (spawnSelected == Spawn.Middle)
+            {
+                instantiateMan();
+            }
+            if (spawnSelected == Spawn.Right)
+            {
+                instantiateHead();
+            }
+            enemiesRemaining -= 1;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    void ChoosingMan()
+    {
+        int role = Random.Range(0, 3);
+        if (role == 0)
+        {
+            chosenMan = missileMan01;
+        }
+        if (role == 1)
+        {
+            chosenMan = missileMan02;
+        }
+        if (role == 2)
+        {
+            chosenMan = missileMan03;
         }
     }
 
     void Start()
     {
+        enemiesRemaining = 3;
         targetPosition = objPosition;
         GetComponent<Transform>().eulerAngles = new Vector3(xAxisSpawn, yAxisSpawn, -15);
         SpawnEnemies();
+        // After 3 seconds, a projectile will be launched every 1.75 seconds
+        InvokeRepeating("LaunchProjectile", 3f, 1.75f);
     }
 
     void Update()
