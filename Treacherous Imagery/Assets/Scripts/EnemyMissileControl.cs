@@ -10,7 +10,7 @@ public class EnemyMissileControl : MonoBehaviour
     public int yAxisSpawn = 6;
 
     public int xAxisTarget;
-    public int yAxisTarget = -4;
+    public int yAxisTarget = -6;
 
     public Transform chosenMan;
     public Transform missileMan01;
@@ -19,7 +19,7 @@ public class EnemyMissileControl : MonoBehaviour
     public Transform missileHead01;
 
     public float timeKeeper = 0f;
-    public float fracDist = .0001f;
+    public float fracDist = 1f;
     public Vector3 targetPosition;
     public static Vector3 objPosition;
 
