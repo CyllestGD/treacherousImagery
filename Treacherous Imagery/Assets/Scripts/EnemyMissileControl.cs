@@ -178,12 +178,12 @@ public class EnemyMissileControl : MonoBehaviour
 
     void Start()
     {
-        enemiesRemaining = 3;
+        enemiesRemaining = 30;
         targetPosition = objPosition;
         GetComponent<Transform>().eulerAngles = new Vector3(xAxisSpawn, yAxisSpawn, -15);
         SpawnEnemies();
         // After 3 seconds, a projectile will be launched every 1.75 seconds
-        InvokeRepeating("LaunchProjectile", 3f, 1.75f);
+        InvokeRepeating("LaunchProjectile", 3f, 15f);
     }
 
     void Update()
