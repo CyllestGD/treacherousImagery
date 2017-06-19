@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMissileMovement : MonoBehaviour
 {
     public float timeKeeper = 0f;
-    public float fracDist = .0001f;
+    public float fracDist = .01f;
     public Vector3 targetPosition;
 
     // Use this for initialization
@@ -18,13 +18,13 @@ public class EnemyMissileMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeKeeper += Time.deltaTime;
+        //timeKeeper += Time.deltaTime;
 
-        if (timeKeeper > .04)
-        {
-            fracDist += .000001f;
-            timeKeeper = 0f;
-        }
+        //if (timeKeeper > .04)
+        //{
+        //    fracDist += .000001f;
+        //    timeKeeper = 0f;
+        //}
         transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
     }
     void OnTriggerEnter(Collider other)
@@ -36,7 +36,7 @@ public class EnemyMissileMovement : MonoBehaviour
             Debug.Log("Left is hurt");
             if (PlayerMissileControl.LeftHP == 0)
             {
-                
+                EnemyMissileControl.leftActive = 0;
                 Destroy(other.gameObject);
             }
             Destroy(gameObject);
@@ -48,8 +48,8 @@ public class EnemyMissileMovement : MonoBehaviour
             Debug.Log("Middle my dude");
             if (PlayerMissileControl.MiddleHP == 0)
             {
+                EnemyMissileControl.middleActive = 0;
                 Destroy(other.gameObject);
-                //EnemyMissileControl.Base
             }
             Destroy(gameObject);
         }
@@ -60,6 +60,7 @@ public class EnemyMissileMovement : MonoBehaviour
             Debug.Log("Right's hit!");
             if (PlayerMissileControl.RightHP == 0)
             {
+                EnemyMissileControl.rightActive = 0;
                 Destroy(other.gameObject);
             }
             Destroy(gameObject);

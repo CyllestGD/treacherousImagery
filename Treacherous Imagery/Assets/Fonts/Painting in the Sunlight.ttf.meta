@@ -4,8 +4,8 @@ timeCreated: 1496806480
 licenseType: Pro
 TrueTypeFontImporter:
   serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
+  fontSize: 72
+  forceTextureCase: 3
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -13,7 +13,7 @@ TrueTypeFontImporter:
   fontNames:
   - Painting in the Sunlight
   fallbackFontReferences: []
-  customCharacters: 
+  customCharacters: The End
   fontRenderingMode: 0
   ascentCalculationMode: 1
   userData: 

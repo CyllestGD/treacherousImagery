@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyMissileControl : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class EnemyMissileControl : MonoBehaviour
     public int yAxisSpawn = 6;
 
     public int xAxisTarget;
-    public int yAxisTarget = -6;
+    public int yAxisTarget = -100;
 
     public Transform chosenMan;
     public Transform missileMan01;
@@ -27,9 +28,19 @@ public class EnemyMissileControl : MonoBehaviour
     public GameObject[] activeBases;
     public GameObject baseSelected;
 
+    public int enemiesThisRound;
     public int enemiesRemaining;
 
+    public Text roundCount;
+    public int roundCountNum;
+
     public static EnemyMissileControl Instance;
+
+    public Button theEnd;
+
+    public static int leftActive = 1;
+    public static int middleActive = 1;
+    public static int rightActive = 1;
 
     void Awake()
     {
@@ -155,8 +166,19 @@ public class EnemyMissileControl : MonoBehaviour
         }
         else
         {
-            return;
+            NewRound();
         }
+    }
+
+    void NewRound()
+    {
+        enemiesThisRound += 5;
+        enemiesRemaining = enemiesThisRound;
+        roundCountNum += 1;
+        SetRoundText();
+        SpawnEnemies();
+        // After 3 seconds, a projectile will be launched every 1.75 seconds
+        InvokeRepeating("LaunchProjectile", 3f, 1.75f);
     }
 
     void ChoosingMan()
@@ -176,14 +198,23 @@ public class EnemyMissileControl : MonoBehaviour
         }
     }
 
+    void SetRoundText()
+    {
+        roundCount.text = "Round: " + roundCountNum.ToString();
+    }
+
     void Start()
     {
-        enemiesRemaining = 30;
+        theEnd.gameObject.SetActive(false);
+        roundCountNum = 1;
+        SetRoundText();
+        enemiesThisRound = 15;
+        enemiesRemaining = enemiesThisRound;
         targetPosition = objPosition;
         GetComponent<Transform>().eulerAngles = new Vector3(xAxisSpawn, yAxisSpawn, -15);
         SpawnEnemies();
         // After 3 seconds, a projectile will be launched every 1.75 seconds
-        InvokeRepeating("LaunchProjectile", 3f, 15f);
+        InvokeRepeating("LaunchProjectile", 3f, 1.75f);
     }
 
     void Update()
@@ -191,12 +222,16 @@ public class EnemyMissileControl : MonoBehaviour
         SpawnEnemies();
         targetPosition = new Vector3(xAxisTarget, yAxisTarget, 0);
 
-        timeKeeper += Time.deltaTime;
-
-        if (timeKeeper > .04)
+        if (leftActive == 0 && middleActive == 0 && rightActive == 0)
         {
-            fracDist += .01f;
-            timeKeeper = 0f;
+            theEnd.gameObject.SetActive(true);
         }
+        //timeKeeper += Time.deltaTime;
+
+        //if (timeKeeper > .04)
+        //{
+        //    fracDist += .01f;
+        //    timeKeeper = 0f;
+        //}
     }
 }
