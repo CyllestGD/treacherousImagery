@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 877aa99d32e10694a9a19f730142a0b2
-timeCreated: 1496806480
-licenseType: Pro
+guid: ee70f48c18c0a98429023e1f8097ef3c
+timeCreated: 1497922492
+licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
-  fontSize: 72
-  forceTextureCase: 3
+  fontSize: 100
+  forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -13,7 +13,7 @@ TrueTypeFontImporter:
   fontNames:
   - Painting in the Sunlight
   fallbackFontReferences: []
-  customCharacters: The End
+  customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
   userData: 

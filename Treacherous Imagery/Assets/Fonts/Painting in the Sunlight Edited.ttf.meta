@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 877aa99d32e10694a9a19f730142a0b2
+timeCreated: 1496806480
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 72
+  forceTextureCase: 3
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Painting in the Sunlight
+  fontNames:
+  - Painting in the Sunlight
+  fallbackFontReferences: []
+  customCharacters: The End
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
