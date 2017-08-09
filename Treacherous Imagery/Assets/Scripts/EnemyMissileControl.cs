@@ -143,7 +143,7 @@ public class EnemyMissileControl : MonoBehaviour
 
     void instantiateHead()
     {
-        Instantiate(missileHead01, new Vector3(xAxisSpawn, yAxisSpawn, 0), missileHead01.rotation);
+        Instantiate(missileHead01, new Vector3(xAxisSpawn, yAxisSpawn, 0), Quaternion.identity);
     }
 
     void checkForAmmo()

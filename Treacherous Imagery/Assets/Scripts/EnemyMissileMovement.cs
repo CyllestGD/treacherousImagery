@@ -7,12 +7,20 @@ public class EnemyMissileMovement : MonoBehaviour
     public float timeKeeper = 0f;
     public float fracDist = .01f;
     public Vector3 targetPosition;
+    public bool isHead = false;
 
     // Use this for initialization
     void Start()
     {
         targetPosition = EnemyMissileControl.Instance.targetPosition;
-        GetComponent<Transform>().eulerAngles = new Vector3(0, 0, 0);
+        if (isHead)
+        {
+            GetComponent<Transform>().eulerAngles = new Vector3(-90, 0, 0);
+        }
+        else
+        {
+            GetComponent<Transform>().eulerAngles = new Vector3(0, 0, 0);
+        }
     }
 
     // Update is called once per frame
@@ -25,7 +33,7 @@ public class EnemyMissileMovement : MonoBehaviour
         //    fracDist += .000001f;
         //    timeKeeper = 0f;
         //}
-        transform.position = Vector3.Lerp(transform.position, targetPosition, fracDist);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, fracDist);
     }
     void OnTriggerEnter(Collider other)
     {
